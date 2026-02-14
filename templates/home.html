@@ -1,0 +1,815 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FARDIN's SmartShop BD - Home{% endblock %}
+
+{% block content %}
+<style>
+    /* ===== DIRECT INLINE CSS - 100% GUARANTEED WORKING ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .smartshop-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+
+    /* ===== HERO SECTION - BOLD & CLEAN ===== */
+    .smartshop-hero {
+        background: #0B2B40;
+        background: linear-gradient(145deg, #0B2B40 0%, #1A4A5F 100%);
+        border-radius: 32px;
+        margin: 24px 0 48px 0;
+        padding: 56px 48px;
+        position: relative;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 25px 40px -12px rgba(0,0,0,0.25);
+    }
+
+    .smartshop-hero-left {
+        flex: 0 0 55%;
+    }
+
+    .smartshop-hero-badge {
+        background: rgba(255,255,255,0.12);
+        padding: 8px 20px;
+        border-radius: 100px;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #FFEAA7;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .smartshop-hero-title {
+        font-size: 56px;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .smartshop-hero-title span {
+        color: #FFEAA7;
+        position: relative;
+    }
+
+    .smartshop-hero-desc {
+        font-size: 18px;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 32px;
+        line-height: 1.6;
+        max-width: 90%;
+    }
+
+    .smartshop-btn-group {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+
+    .smartshop-btn-primary {
+        background: white;
+        color: #0B2B40;
+        padding: 14px 32px;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        transition: all 0.2s;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .smartshop-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+        background: #f8fafc;
+    }
+
+    .smartshop-btn-outline {
+        background: transparent;
+        color: white;
+        padding: 14px 32px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1.5px solid rgba(255,255,255,0.4);
+        transition: all 0.2s;
+    }
+
+    .smartshop-btn-outline:hover {
+        border-color: white;
+        background: rgba(255,255,255,0.05);
+    }
+
+    .smartshop-stats {
+        display: flex;
+        gap: 48px;
+    }
+
+    .smartshop-stat-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .smartshop-stat-number {
+        font-size: 28px;
+        font-weight: 800;
+        color: white;
+        line-height: 1.2;
+    }
+
+    .smartshop-stat-label {
+        font-size: 14px;
+        color: rgba(255,255,255,0.7);
+        margin-top: 4px;
+    }
+
+    .smartshop-hero-right {
+        flex: 0 0 40%;
+        text-align: center;
+    }
+
+    .smartshop-hero-image {
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .smartshop-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 32px;
+    }
+
+    .smartshop-section-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #0B2B40;
+        margin: 0;
+        position: relative;
+        padding-bottom: 12px;
+    }
+
+    .smartshop-section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: #2C7A7B;
+        border-radius: 4px;
+    }
+
+    .smartshop-section-link {
+        color: #2C7A7B;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 16px;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .smartshop-section-link:hover {
+        border-bottom-color: #2C7A7B;
+    }
+
+    /* ===== CATEGORY GRID - FIXED & WORKING ===== */
+    .smartshop-category-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
+        margin-bottom: 60px;
+    }
+
+    .smartshop-category-card {
+        background: white;
+        border-radius: 20px;
+        padding: 24px 12px;
+        text-align: center;
+        text-decoration: none;
+        border: 1px solid #E2E8F0;
+        transition: all 0.2s;
+        display: block;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .smartshop-category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 25px -8px rgba(44,122,123,0.12);
+        border-color: #B2D8D9;
+    }
+
+    .smartshop-category-icon {
+        width: 64px;
+        height: 64px;
+        background: #E6F3F4;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px auto;
+        font-size: 24px;
+        color: #1E5F6B;
+        transition: all 0.2s;
+    }
+
+    .smartshop-category-card:hover .smartshop-category-icon {
+        background: #2C7A7B;
+        color: white;
+    }
+
+    .smartshop-category-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1E293B;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .smartshop-category-count {
+        font-size: 13px;
+        color: #64748B;
+        font-weight: 500;
+    }
+
+    /* ===== PROMO BANNER ===== */
+    .smartshop-promo {
+        background: #1E3A5F;
+        background: linear-gradient(105deg, #1E3A5F 0%, #2C5282 100%);
+        border-radius: 28px;
+        padding: 40px 48px;
+        margin-bottom: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+    }
+
+    .smartshop-promo-tag {
+        background: rgba(255,255,255,0.12);
+        padding: 6px 18px;
+        border-radius: 100px;
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .smartshop-promo-title {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .smartshop-promo-desc {
+        font-size: 16px;
+        opacity: 0.95;
+        margin: 0;
+    }
+
+    .smartshop-promo-code {
+        font-weight: 700;
+        color: #FFEAA7;
+        letter-spacing: 1px;
+    }
+
+    .smartshop-promo-btn {
+        background: white;
+        color: #1E3A5F;
+        padding: 16px 36px;
+        border-radius: 100px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        transition: all 0.2s;
+    }
+
+    .smartshop-promo-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+    }
+
+    /* ===== PRODUCT GRID ===== */
+    .smartshop-product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 60px;
+    }
+
+    .smartshop-product-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid #EDF2F7;
+        transition: all 0.25s;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+
+    .smartshop-product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px -8px rgba(44,122,123,0.12);
+        border-color: #CBD5E0;
+    }
+
+    .smartshop-product-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: #E53E3E;
+        color: white;
+        padding: 4px 14px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        z-index: 2;
+    }
+
+    .smartshop-product-image-wrapper {
+        position: relative;
+        padding-top: 100%;
+        background: #F8FAFC;
+        display: block;
+        text-decoration: none;
+    }
+
+    .smartshop-product-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+    }
+
+    .smartshop-product-card:hover .smartshop-product-image {
+        transform: scale(1.08);
+    }
+
+    .smartshop-product-details {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .smartshop-product-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1E293B;
+        margin-bottom: 12px;
+        line-height: 1.4;
+        text-decoration: none;
+        display: block;
+    }
+
+    .smartshop-product-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 12px;
+    }
+
+    .smartshop-star {
+        color: #FBBF24;
+        font-size: 13px;
+    }
+
+    .smartshop-rating-count {
+        font-size: 12px;
+        color: #64748B;
+        margin-left: 4px;
+    }
+
+    .smartshop-price-wrapper {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .smartshop-current-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0B2B40;
+    }
+
+    .smartshop-old-price {
+        font-size: 15px;
+        color: #94A3B8;
+        text-decoration: line-through;
+    }
+
+    .smartshop-add-btn {
+        background: #F1F5F9;
+        color: #1E293B;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: auto;
+    }
+
+    .smartshop-add-btn:hover {
+        background: #2C7A7B;
+        color: white;
+    }
+
+    /* ===== BRAND SECTION ===== */
+    .smartshop-brands {
+        background: white;
+        border-radius: 28px;
+        padding: 40px 48px;
+        margin-bottom: 40px;
+        border: 1px solid #EDF2F7;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    }
+
+    .smartshop-brand-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 32px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .smartshop-brand-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 40px;
+        align-items: center;
+    }
+
+    .smartshop-brand-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        filter: grayscale(100%);
+        opacity: 0.6;
+        transition: all 0.2s;
+    }
+
+    .smartshop-brand-item:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+
+    .smartshop-brand-logo {
+        max-height: 36px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .smartshop-empty {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 28px;
+        grid-column: 1 / -1;
+    }
+
+    .smartshop-empty-icon {
+        font-size: 56px;
+        color: #CBD5E0;
+        margin-bottom: 16px;
+    }
+
+    .smartshop-empty h4 {
+        color: #334155;
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    .smartshop-empty p {
+        color: #64748B;
+        font-size: 16px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+        .smartshop-hero-title { font-size: 48px; }
+    }
+
+    @media (max-width: 1024px) {
+        .smartshop-category-grid { grid-template-columns: repeat(4, 1fr); }
+        .smartshop-product-grid { grid-template-columns: repeat(3, 1fr); }
+        .smartshop-hero-title { font-size: 42px; }
+    }
+
+    @media (max-width: 900px) {
+        .smartshop-hero { flex-direction: column; padding: 40px 24px; }
+        .smartshop-hero-left { flex: 0 0 100%; width: 100%; }
+        .smartshop-hero-desc { max-width: 100%; }
+        .smartshop-hero-right { display: none; }
+        .smartshop-stats { justify-content: center; }
+        .smartshop-btn-group { justify-content: center; }
+    }
+
+    @media (max-width: 768px) {
+        .smartshop-category-grid { grid-template-columns: repeat(3, 1fr); }
+        .smartshop-product-grid { grid-template-columns: repeat(2, 1fr); }
+        .smartshop-brand-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .smartshop-promo { flex-direction: column; text-align: center; gap: 24px; }
+        .smartshop-section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    @media (max-width: 480px) {
+        .smartshop-category-grid { grid-template-columns: repeat(2, 1fr); }
+        .smartshop-product-grid { grid-template-columns: 1fr; }
+        .smartshop-brand-grid { grid-template-columns: repeat(2, 1fr); }
+        .smartshop-hero-title { font-size: 36px; }
+        .smartshop-stats { gap: 24px; flex-wrap: wrap; }
+        .smartshop-btn-group { flex-direction: column; width: 100%; }
+        .smartshop-btn-primary, .smartshop-btn-outline { text-align: center; justify-content: center; }
+    }
+</style>
+
+<!-- ===== SMART SHOP BD - MAIN CONTENT ===== -->
+<div class="smartshop-container">
+    
+    <!-- ===== HERO SECTION ===== -->
+    <div class="smartshop-hero">
+        <div class="smartshop-hero-left">
+            <span class="smartshop-hero-badge">
+                <i class="bi bi-shield-check"></i> TRUSTED SINCE 2024
+            </span>
+            <h1 class="smartshop-hero-title">
+                FARDIN's <span>SmartShop</span>
+            </h1>
+            <p class="smartshop-hero-desc">
+                Bangladesh's premier destination for authentic electronics.<br>
+                1-year warranty • Free shipping • 24/7 support
+            </p>
+            
+            <div class="smartshop-btn-group">
+                <a href="{% url 'product_list' %}" class="smartshop-btn-primary">
+                    <i class="bi bi-cart3"></i> Shop Now
+                </a>
+                <a href="#deals" class="smartshop-btn-outline">
+                    <i class="bi bi-fire"></i> Hot Deals
+                </a>
+            </div>
+            
+            <div class="smartshop-stats">
+                <div class="smartshop-stat-item">
+                    <span class="smartshop-stat-number">50k+</span>
+                    <span class="smartshop-stat-label">Happy Customers</span>
+                </div>
+                <div class="smartshop-stat-item">
+                    <span class="smartshop-stat-number">10k+</span>
+                    <span class="smartshop-stat-label">Products</span>
+                </div>
+                <div class="smartshop-stat-item">
+                    <span class="smartshop-stat-number">24/7</span>
+                    <span class="smartshop-stat-label">Support</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="smartshop-hero-right">
+            <img src="media/images.jpeg" 
+                 alt="Shopping" class="smartshop-hero-image">
+        </div>
+    </div>
+
+    <!-- ===== CATEGORY SECTION ===== -->
+    <div>
+        <div class="smartshop-section-header">
+            <h2 class="smartshop-section-title">Shop by Category</h2>
+            <a href="{% url 'product_list' %}" class="smartshop-section-link">
+                All Categories <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        
+        <div class="smartshop-category-grid">
+            {% for category in categories %}
+            <a href="{% url 'product_list' %}?category={{ category.slug }}" class="smartshop-category-card">
+                <div class="smartshop-category-icon">
+                    {% if 'phone' in category.name|lower %}
+                        <i class="bi bi-phone"></i>
+                    {% elif 'watch' in category.name|lower %}
+                        <i class="bi bi-smartwatch"></i>
+                    {% elif 'headphone' in category.name|lower %}
+                        <i class="bi bi-headphones"></i>
+                    {% elif 'gadget' in category.name|lower %}
+                        <i class="bi bi-motherboard"></i>
+                    {% elif 'camera' in category.name|lower %}
+                        <i class="bi bi-camera"></i>
+                    {% elif 'laptop' in category.name|lower %}
+                        <i class="bi bi-laptop"></i>
+                    {% elif 'tablet' in category.name|lower %}
+                        <i class="bi bi-tablet"></i>
+                    {% elif 'tv' in category.name|lower %}
+                        <i class="bi bi-tv"></i>
+                    {% else %}
+                        <i class="bi bi-box"></i>
+                    {% endif %}
+                </div>
+                <span class="smartshop-category-name">{{ category.name }}</span>
+                <span class="smartshop-category-count">
+                    {% with count=category.products.count %}
+                        {{ count }} item{{ count|pluralize }}
+                    {% endwith %}
+                </span>
+            </a>
+            {% empty %}
+            <div class="smartshop-empty">
+                <div class="smartshop-empty-icon">
+                    <i class="bi bi-grid"></i>
+                </div>
+                <h4>No categories yet</h4>
+                <p>Categories will appear here</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ===== PROMO BANNER ===== -->
+    <div class="smartshop-promo">
+        <div>
+            <span class="smartshop-promo-tag">
+                <i class="bi bi-moon-stars"></i> RAMADAN SPECIAL
+            </span>
+            <h2 class="smartshop-promo-title">Up to 70% Off</h2>
+            <p class="smartshop-promo-desc">
+                Plus free AirPods with every iPhone purchase.<br>
+                Use code: <span class="smartshop-promo-code">RAMADAN70</span>
+            </p>
+        </div>
+        <div>
+            <a href="{% url 'product_list' %}" class="smartshop-promo-btn">
+                Grab Deal <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== FEATURED PRODUCTS ===== -->
+    <div id="deals">
+        <div class="smartshop-section-header">
+            <h2 class="smartshop-section-title">Featured Products</h2>
+            <a href="{% url 'product_list' %}" class="smartshop-section-link">
+                View All <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        
+        <div class="smartshop-product-grid">
+            {% for product in products %}
+            <div class="smartshop-product-card">
+                {% if product.discount_price %}
+                <div class="smartshop-product-badge">
+                    -{{ product.discount_price|floatformat:0 }}% OFF
+                </div>
+                {% endif %}
+                
+                <a href="{% url 'product_detail' product.slug %}" class="smartshop-product-image-wrapper">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="smartshop-product-image" alt="{{ product.name }}">
+                    {% else %}
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #F1F5F9;">
+                        <i class="bi bi-image" style="font-size: 48px; color: #94A3B8;"></i>
+                    </div>
+                    {% endif %}
+                </a>
+                
+                <div class="smartshop-product-details">
+                    <a href="{% url 'product_detail' product.slug %}" style="text-decoration: none;">
+                        <h3 class="smartshop-product-title">{{ product.name|truncatechars:40 }}</h3>
+                    </a>
+                    
+                    <div class="smartshop-product-rating">
+                        <i class="bi bi-star-fill smartshop-star"></i>
+                        <i class="bi bi-star-fill smartshop-star"></i>
+                        <i class="bi bi-star-fill smartshop-star"></i>
+                        <i class="bi bi-star-fill smartshop-star"></i>
+                        <i class="bi bi-star-half smartshop-star"></i>
+                        <span class="smartshop-rating-count">(124)</span>
+                    </div>
+                    
+                    <div class="smartshop-price-wrapper">
+                        <span class="smartshop-current-price">৳{{ product.final_price }}</span>
+                        {% if product.discount_price %}
+                        <span class="smartshop-old-price">৳{{ product.price }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <form action="{% url 'add_to_cart' product.id %}" method="POST" style="margin-top: auto;">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="smartshop-add-btn">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <div class="smartshop-empty">
+                <div class="smartshop-empty-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <h4>No products available</h4>
+                <p>Check back soon for new arrivals</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ===== BRANDS ===== -->
+    <div class="smartshop-brands">
+        <h3 class="smartshop-brand-title">TRUSTED BY GLOBAL BRANDS</h3>
+        <div class="smartshop-brand-grid">
+            <div class="smartshop-brand-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/2560px-Samsung_Logo.svg.png" 
+                     alt="Samsung" class="smartshop-brand-logo">
+            </div>
+            <div class="smartshop-brand-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png" 
+                     alt="Apple" class="smartshop-brand-logo">
+            </div>
+            <div class="smartshop-brand-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sony_logo.svg/2560px-Sony_logo.svg.png" 
+                     alt="Sony" class="smartshop-brand-logo">
+            </div>
+            <div class="smartshop-brand-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/HP_logo_2012.svg/1024px-HP_logo_2012.svg.png" 
+                     alt="HP" class="smartshop-brand-logo">
+            </div>
+            <div class="smartshop-brand-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" 
+                     alt="Microsoft" class="smartshop-brand-logo">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add to cart animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.smartshop-add-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = this.closest('form');
+                const original = this.innerHTML;
+                
+                this.innerHTML = '<i class="bi bi-check2-circle"></i> Added!';
+                this.style.background = '#2C7A7B';
+                this.style.color = 'white';
+                
+                setTimeout(() => {
+                    this.innerHTML = original;
+                    this.style.background = '#F1F5F9';
+                    this.style.color = '#1E293B';
+                }, 1500);
+                
+                setTimeout(() => form.submit(), 300);
+            });
+        });
+    });
+</script>
+{% endblock %}

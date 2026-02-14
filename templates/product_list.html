@@ -1,0 +1,951 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Products - FARDIN's SmartShop BD{% endblock %}
+
+{% block content %}
+<style>
+    /* ===== PERFECTLY RESIZED - OPTIMAL PROPORTIONS ===== */
+    /* RESET & BASE */
+    .plp-container * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    .plp-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 20px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        background: #f8fafc;
+    }
+    
+    /* ===== SIDEBAR - COMPACT & CLEAN ===== */
+    .plp-sidebar {
+        background: white;
+        border-radius: 20px;
+        padding: 0;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+        border: 1px solid #edf2f7;
+        overflow: hidden;
+        position: sticky;
+        top: 20px;
+    }
+    
+    .plp-sidebar-header {
+        background: #0B2B40;
+        padding: 18px 20px;
+        color: white;
+    }
+    
+    .plp-sidebar-header h5 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: white;
+    }
+    
+    .plp-sidebar-header i {
+        color: #FFEAA7;
+        font-size: 18px;
+    }
+    
+    .plp-sidebar-content {
+        padding: 20px;
+    }
+    
+    .plp-category-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0B2B40;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .plp-category-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+    
+    .plp-category-item {
+        margin-bottom: 4px;
+    }
+    
+    .plp-category-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 14px;
+        border-radius: 10px;
+        color: #334155;
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s;
+        background: transparent;
+    }
+    
+    .plp-category-link:hover {
+        background: #f1f5f9;
+        color: #0B2B40;
+    }
+    
+    .plp-category-link.active {
+        background: #0B2B40;
+        color: white;
+    }
+    
+    .plp-category-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .plp-category-name i {
+        font-size: 16px;
+    }
+    
+    .plp-category-count {
+        background: #e2e8f0;
+        padding: 2px 8px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #475569;
+    }
+    
+    .plp-category-link.active .plp-category-count {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+    
+    /* ===== FILTER SECTION - COMPACT ===== */
+    .plp-filter-section {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 18px;
+        margin-top: 18px;
+    }
+    
+    .plp-filter-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #0B2B40;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .plp-filter-title i {
+        font-size: 16px;
+    }
+    
+    .plp-price-range {
+        background: #f8fafc;
+        padding: 14px;
+        border-radius: 14px;
+        margin-bottom: 16px;
+    }
+    
+    .plp-price-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    
+    .plp-range-input {
+        width: 100%;
+        accent-color: #2C7A7B;
+        height: 5px;
+    }
+    
+    .plp-apply-btn {
+        background: white;
+        border: 1px solid #2C7A7B;
+        color: #2C7A7B;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 13px;
+        width: 100%;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .plp-apply-btn:hover {
+        background: #2C7A7B;
+        color: white;
+    }
+    
+    .plp-brand-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .plp-brand-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #334155;
+    }
+    
+    .plp-brand-checkbox {
+        width: 16px;
+        height: 16px;
+        accent-color: #2C7A7B;
+        cursor: pointer;
+    }
+    
+    /* ===== MAIN CONTENT - OPTIMAL SIZE ===== */
+    .plp-main {
+        width: 100%;
+    }
+    
+    .plp-header {
+        background: white;
+        border-radius: 16px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        border: 1px solid #edf2f7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .plp-header-left {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+    }
+    
+    .plp-header-left h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0B2B40;
+        margin: 0;
+    }
+    
+    .plp-header-badge {
+        background: #2C7A7B;
+        color: white;
+        padding: 3px 12px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .plp-sort {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .plp-sort-label {
+        color: #64748b;
+        font-size: 13px;
+    }
+    
+    .plp-sort-select {
+        padding: 6px 24px 6px 14px;
+        border-radius: 50px;
+        border: 1px solid #e2e8f0;
+        font-size: 13px;
+        color: #1e293b;
+        background: white;
+        cursor: pointer;
+    }
+    
+    .plp-search-query {
+        background: #FFEAA7;
+        color: #0B2B40;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .plp-clear-search {
+        color: #0B2B40;
+        text-decoration: none;
+        font-weight: 700;
+        margin-left: 10px;
+    }
+    
+    /* ===== PRODUCT GRID - PERFECT 3-COLUMN ===== */
+    .plp-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    
+    .plp-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.25s;
+        border: 1px solid #edf2f7;
+        position: relative;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+    }
+    
+    .plp-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 25px rgba(44,122,123,0.08);
+        border-color: #b2d8d9;
+    }
+    
+    .plp-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #E53E3E;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        z-index: 10;
+        box-shadow: 0 3px 8px rgba(229,62,62,0.2);
+    }
+    
+    .plp-image-wrapper {
+        position: relative;
+        padding-top: 100%;
+        background: #f8fafc;
+        overflow: hidden;
+    }
+    
+    .plp-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+    }
+    
+    .plp-card:hover .plp-image {
+        transform: scale(1.05);
+    }
+    
+    .plp-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(11,43,64,0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.25s;
+        backdrop-filter: blur(2px);
+    }
+    
+    .plp-card:hover .plp-overlay {
+        opacity: 1;
+    }
+    
+    .plp-quick-view {
+        background: white;
+        color: #0B2B40;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 12px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transform: translateY(12px);
+        transition: all 0.25s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .plp-card:hover .plp-quick-view {
+        transform: translateY(0);
+    }
+    
+    .plp-quick-view:hover {
+        background: #FFEAA7;
+    }
+    
+    .plp-details {
+        padding: 16px;
+    }
+    
+    .plp-category-tag {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #2C7A7B;
+        font-weight: 700;
+        margin-bottom: 6px;
+        display: block;
+    }
+    
+    .plp-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #0B2B40;
+        margin-bottom: 10px;
+        line-height: 1.4;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .plp-title:hover {
+        color: #2C7A7B;
+    }
+    
+    .plp-rating {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        margin-bottom: 10px;
+    }
+    
+    .plp-star {
+        color: #fbbf24;
+        font-size: 12px;
+    }
+    
+    .plp-rating-count {
+        font-size: 11px;
+        color: #64748b;
+        margin-left: 4px;
+    }
+    
+    .plp-price-wrap {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+    }
+    
+    .plp-current-price {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0B2B40;
+    }
+    
+    .plp-old-price {
+        font-size: 13px;
+        color: #94a3b8;
+        text-decoration: line-through;
+    }
+    
+    .plp-discount-badge {
+        background: #E53E3E;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: 700;
+        margin-left: 6px;
+    }
+    
+    .plp-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 6px;
+    }
+    
+    .plp-btn-view {
+        background: #f1f5f9;
+        color: #334155;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex: 1;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    
+    .plp-btn-view:hover {
+        background: #e2e8f0;
+        color: #0B2B40;
+    }
+    
+    .plp-btn-add {
+        background: #0B2B40;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex: 1;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .plp-btn-add:hover {
+        background: #1A4A5F;
+        transform: scale(1.01);
+    }
+    
+    .plp-btn-add i {
+        font-size: 14px;
+    }
+    
+    /* ===== EMPTY STATE - RESIZED ===== */
+    .plp-empty {
+        text-align: center;
+        padding: 50px 30px;
+        background: white;
+        border-radius: 24px;
+        grid-column: 1 / -1;
+    }
+    
+    .plp-empty-icon {
+        font-size: 56px;
+        color: #cbd5e0;
+        margin-bottom: 16px;
+        animation: plpBounce 2s infinite;
+    }
+    
+    @keyframes plpBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+    
+    .plp-empty-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 10px;
+    }
+    
+    .plp-empty-desc {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .plp-btn-continue {
+        background: #0B2B40;
+        color: white;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+    }
+    
+    .plp-btn-continue:hover {
+        background: #1A4A5F;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(11,43,64,0.15);
+    }
+    
+    /* ===== PAGINATION - COMPACT ===== */
+    .plp-pagination {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+    }
+    
+    .plp-page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: white;
+        color: #334155;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .plp-page-link:hover {
+        background: #f1f5f9;
+        color: #0B2B40;
+    }
+    
+    .plp-page-item.active .plp-page-link {
+        background: #0B2B40;
+        color: white;
+        border-color: #0B2B40;
+    }
+    
+    /* ===== RESPONSIVE - PERFECT BREAKPOINTS ===== */
+    @media (max-width: 1100px) {
+        .plp-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    
+    @media (max-width: 992px) {
+        .plp-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    @media (max-width: 768px) {
+        .plp-container { padding: 20px 16px; }
+        .plp-header { flex-direction: column; align-items: flex-start; }
+        .plp-header-left h2 { font-size: 18px; }
+        .plp-sort { width: 100%; }
+        .plp-sort-select { width: 100%; }
+        .plp-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+    
+    @media (max-width: 640px) {
+        .plp-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .plp-details { padding: 14px; }
+        .plp-title { font-size: 14px; }
+        .plp-current-price { font-size: 16px; }
+    }
+    
+    @media (max-width: 576px) {
+        .plp-grid { grid-template-columns: 1fr; }
+        .plp-sidebar { position: static; margin-bottom: 20px; }
+        .plp-actions { flex-direction: row; }
+        .plp-card { max-width: 100%; }
+    }
+    
+    @media (max-width: 480px) {
+        .plp-container { padding: 16px 12px; }
+        .plp-header { padding: 14px 16px; }
+        .plp-header-left h2 { font-size: 18px; }
+        .plp-header-badge { font-size: 11px; }
+        .plp-category-link { padding: 8px 12px; }
+        .plp-actions { flex-direction: column; }
+    }
+</style>
+
+<!-- ===== MAIN PRODUCT LIST PAGE - PERFECTLY RESIZED ===== -->
+<div class="plp-container">
+    <div class="row g-4">
+        <!-- ===== SIDEBAR - COMPACT ===== -->
+        <div class="col-lg-3">
+            <div class="plp-sidebar">
+                <div class="plp-sidebar-header">
+                    <h5>
+                        <i class="bi bi-sliders2"></i>
+                        Filter Products
+                    </h5>
+                </div>
+                <div class="plp-sidebar-content">
+                    <!-- Categories -->
+                    <div>
+                        <h6 class="plp-category-title">
+                            <i class="bi bi-grid"></i> Categories
+                        </h6>
+                        <ul class="plp-category-list">
+                            <li class="plp-category-item">
+                                <a href="{% url 'product_list' %}" class="plp-category-link {% if not selected_category %}active{% endif %}">
+                                    <span class="plp-category-name">
+                                        <i class="bi bi-box-seam"></i> All Products
+                                    </span>
+                                    <span class="plp-category-count">{{ total_products|default:products|length }}</span>
+                                </a>
+                            </li>
+                            {% for category in categories %}
+                            <li class="plp-category-item">
+                                <a href="{% url 'product_list' %}?category={{ category.slug }}" 
+                                   class="plp-category-link {% if selected_category == category.slug %}active{% endif %}">
+                                    <span class="plp-category-name">
+                                        {% if 'phone' in category.name|lower %}
+                                            <i class="bi bi-phone"></i>
+                                        {% elif 'watch' in category.name|lower %}
+                                            <i class="bi bi-smartwatch"></i>
+                                        {% elif 'headphone' in category.name|lower %}
+                                            <i class="bi bi-headphones"></i>
+                                        {% elif 'laptop' in category.name|lower %}
+                                            <i class="bi bi-laptop"></i>
+                                        {% elif 'camera' in category.name|lower %}
+                                            <i class="bi bi-camera"></i>
+                                        {% elif 'tv' in category.name|lower %}
+                                            <i class="bi bi-tv"></i>
+                                        {% elif 'tablet' in category.name|lower %}
+                                            <i class="bi bi-tablet"></i>
+                                        {% else %}
+                                            <i class="bi bi-tag"></i>
+                                        {% endif %}
+                                        {{ category.name }}
+                                    </span>
+                                    <span class="plp-category-count">{{ category.products.count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <!-- Price Filter -->
+                    <div class="plp-filter-section">
+                        <h6 class="plp-filter-title">
+                            <i class="bi bi-cash-stack"></i> Price Range
+                        </h6>
+                        <div class="plp-price-range">
+                            <div class="plp-price-labels">
+                                <span>৳0</span>
+                                <span>৳200,000+</span>
+                            </div>
+                            <input type="range" class="plp-range-input" min="0" max="200000" step="1000" value="100000">
+                            <button class="plp-apply-btn">Apply Filter</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Brand Filter -->
+                    <div class="plp-filter-section">
+                        <h6 class="plp-filter-title">
+                            <i class="bi bi-building"></i> Brands
+                        </h6>
+                        <div class="plp-brand-list">
+                            <label class="plp-brand-item">
+                                <input type="checkbox" class="plp-brand-checkbox"> Apple
+                            </label>
+                            <label class="plp-brand-item">
+                                <input type="checkbox" class="plp-brand-checkbox"> Samsung
+                            </label>
+                            <label class="plp-brand-item">
+                                <input type="checkbox" class="plp-brand-checkbox"> Sony
+                            </label>
+                            <label class="plp-brand-item">
+                                <input type="checkbox" class="plp-brand-checkbox"> Xiaomi
+                            </label>
+                            <label class="plp-brand-item">
+                                <input type="checkbox" class="plp-brand-checkbox"> OnePlus
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== PRODUCT GRID - PERFECT SIZE ===== -->
+        <div class="col-lg-9">
+            <div class="plp-main">
+                <!-- Header -->
+                <div class="plp-header">
+                    <div class="plp-header-left">
+                        <h2>
+                            {% if selected_category %}
+                                {% for cat in categories %}
+                                    {% if cat.slug == selected_category %}
+                                        {{ cat.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                All Products
+                            {% endif %}
+                        </h2>
+                        <span class="plp-header-badge">{{ products|length }} items</span>
+                    </div>
+                    
+                    <div class="plp-sort">
+                        <span class="plp-sort-label">Sort by:</span>
+                        <select class="plp-sort-select">
+                            <option>Featured</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest</option>
+                            <option>Best Selling</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Search Query -->
+                {% if query %}
+                <div class="plp-search-query">
+                    <i class="bi bi-search"></i>
+                    Search results for: "{{ query }}"
+                    <a href="{% url 'product_list' %}" class="plp-clear-search">
+                        <i class="bi bi-x-circle"></i> Clear
+                    </a>
+                </div>
+                {% endif %}
+                
+                <!-- Products Grid -->
+                <div class="plp-grid">
+                    {% for product in products %}
+                    <div class="plp-card">
+                        <!-- Discount Badge -->
+                        {% if product.discount_price %}
+                        <div class="plp-badge">
+                            {% with saved=product.price|add:"-"|add:product.discount_price %}
+                            Save ৳{{ saved|floatformat:0 }}
+                            {% endwith %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Image -->
+                        <div class="plp-image-wrapper">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" class="plp-image" alt="{{ product.name }}">
+                            {% else %}
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f1f5f9;">
+                                <i class="bi bi-image" style="font-size: 40px; color: #94a3b8;"></i>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="plp-overlay">
+                                <a href="{% url 'product_detail' product.slug %}" class="plp-quick-view">
+                                    <i class="bi bi-eye-fill"></i> Quick View
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="plp-details">
+                            <span class="plp-category-tag">{{ product.category.name }}</span>
+                            <a href="{% url 'product_detail' product.slug %}" class="plp-title">
+                                {{ product.name|truncatechars:30 }}
+                            </a>
+                            
+                            <!-- Rating -->
+                            <div class="plp-rating">
+                                <i class="bi bi-star-fill plp-star"></i>
+                                <i class="bi bi-star-fill plp-star"></i>
+                                <i class="bi bi-star-fill plp-star"></i>
+                                <i class="bi bi-star-fill plp-star"></i>
+                                <i class="bi bi-star-half plp-star"></i>
+                                <span class="plp-rating-count">(124)</span>
+                            </div>
+                            
+                            <!-- Price -->
+                            <div class="plp-price-wrap">
+                                <span class="plp-current-price">৳{{ product.final_price }}</span>
+                                {% if product.discount_price %}
+                                <span class="plp-old-price">৳{{ product.price }}</span>
+                                <span class="plp-discount-badge">
+                                    -{{ product.discount_price|floatformat:0 }}%
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="plp-actions">
+                                <a href="{% url 'product_detail' product.slug %}" class="plp-btn-view">
+                                    <i class="bi bi-info-circle"></i> Details
+                                </a>
+                                <form action="{% url 'add_to_cart' product.id %}" method="POST" style="flex: 1;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="plp-btn-add">
+                                        <i class="bi bi-cart-plus"></i> Add
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <!-- Empty State -->
+                    <div class="plp-empty">
+                        <div class="plp-empty-icon">
+                            <i class="bi bi-emoji-frown"></i>
+                        </div>
+                        <h3 class="plp-empty-title">No Products Found</h3>
+                        <p class="plp-empty-desc">
+                            {% if query %}
+                                No results found for "{{ query }}"
+                            {% else %}
+                                This category is currently empty
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'product_list' %}" class="plp-btn-continue">
+                            <i class="bi bi-arrow-left"></i> Continue Shopping
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Pagination -->
+                {% if products.paginator.num_pages > 1 %}
+                <div class="plp-pagination">
+                    <a href="#" class="plp-page-link">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    {% for i in products.paginator.page_range %}
+                        {% if products.number == i %}
+                        <span class="plp-page-item active">
+                            <span class="plp-page-link">{{ i }}</span>
+                        </span>
+                        {% else %}
+                        <a href="?page={{ i }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if query %}&q={{ query }}{% endif %}" 
+                           class="plp-page-link">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="#" class="plp-page-link">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add to cart animation
+    (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            var addButtons = document.querySelectorAll('.plp-btn-add');
+            
+            addButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var form = this.closest('form');
+                    var originalHTML = this.innerHTML;
+                    
+                    // Animate button
+                    this.innerHTML = '<i class="bi bi-check2-circle"></i> Added!';
+                    this.style.background = '#2C7A7B';
+                    
+                    // Reset after 1.5 seconds
+                    var self = this;
+                    setTimeout(function() {
+                        self.innerHTML = originalHTML;
+                        self.style.background = '#0B2B40';
+                    }, 1500);
+                    
+                    // Submit form after animation
+                    setTimeout(function() {
+                        form.submit();
+                    }, 300);
+                });
+            });
+        });
+    })();
+</script>
+{% endblock %}

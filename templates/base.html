@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FARDIN's SmartShop BD{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== PROFESSIONAL BASE THEME ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* ===== NAVBAR - GLASSMORPHISM ===== */
+        .navbar-modern {
+            background: linear-gradient(145deg, #0B2B40, #1A4A5F) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-modern .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .navbar-modern .navbar-brand i {
+            color: #FFEAA7;
+            font-size: 1.8rem;
+            transition: transform 0.3s;
+        }
+        
+        .navbar-modern .navbar-brand:hover i {
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .navbar-modern .navbar-brand:hover {
+            color: #FFEAA7;
+        }
+        
+        .navbar-modern .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 50px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .navbar-modern .nav-link:hover {
+            color: white !important;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .navbar-modern .nav-link.active {
+            color: white !important;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .navbar-modern .nav-link i {
+            margin-right: 6px;
+            color: #FFEAA7;
+        }
+        
+        /* Search Bar */
+        .search-form {
+            position: relative;
+            min-width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 20px 10px 48px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #FFEAA7;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 0 4px rgba(255,234,167,0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FFEAA7;
+            color: #0B2B40;
+            border: none;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        /* Cart Button */
+        .cart-btn {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2) !important;
+            border-radius: 50px;
+            padding: 8px 18px !important;
+            color: white !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .cart-btn:hover {
+            background: #FFEAA7 !important;
+            color: #0B2B40 !important;
+            border-color: #FFEAA7 !important;
+            transform: translateY(-2px);
+        }
+        
+        .cart-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .cart-badge {
+            background: #FFEAA7 !important;
+            color: #0B2B40 !important;
+            font-weight: 700;
+            padding: 3px 8px;
+            border: 2px solid #0B2B40;
+        }
+        
+        .cart-btn:hover .cart-badge {
+            background: #0B2B40 !important;
+            color: #FFEAA7 !important;
+            border-color: #FFEAA7 !important;
+        }
+        
+        /* User Dropdown */
+        .user-dropdown-btn {
+            background: rgba(255,255,255,0.15) !important;
+            border: 2px solid rgba(255,255,255,0.2) !important;
+            border-radius: 50px !important;
+            padding: 8px 18px !important;
+            color: white !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .user-dropdown-btn:hover {
+            background: #FFEAA7 !important;
+            color: #0B2B40 !important;
+            border-color: #FFEAA7 !important;
+            transform: translateY(-2px);
+        }
+        
+        .user-dropdown-btn i {
+            font-size: 1.2rem;
+            color: #FFEAA7;
+        }
+        
+        .user-dropdown-btn:hover i {
+            color: #0B2B40;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            min-width: 220px;
+            animation: dropdownFade 0.3s ease;
+        }
+        
+        @keyframes dropdownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 500;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+        
+        .dropdown-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            color: #2C7A7B;
+        }
+        
+        .dropdown-item:hover {
+            background: #f1f5f9;
+            color: #0B2B40;
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item:active {
+            background: #0B2B40;
+            color: white;
+        }
+        
+        .dropdown-item:active i {
+            color: #FFEAA7;
+        }
+        
+        .dropdown-divider {
+            margin: 8px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Admin Badge */
+        .admin-badge {
+            background: linear-gradient(145deg, #FFEAA7, #ffd966);
+            color: #0B2B40;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
+            border: 1px solid #0B2B40;
+        }
+        
+        /* ===== ALERTS ===== */
+        .alert-modern {
+            border-radius: 16px;
+            border: none;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-modern i {
+            font-size: 1.5rem;
+        }
+        
+        .alert-success {
+            background: #f0fdf4;
+            border-left: 6px solid #166534;
+            color: #166534;
+        }
+        
+        .alert-error {
+            background: #fef2f2;
+            border-left: 6px solid #991b1b;
+            color: #991b1b;
+        }
+        
+        .alert-warning {
+            background: #fffbeb;
+            border-left: 6px solid #b45309;
+            color: #b45309;
+        }
+        
+        .alert-info {
+            background: #eff6ff;
+            border-left: 6px solid #1e40af;
+            color: #1e40af;
+        }
+        
+        .alert .btn-close {
+            margin-left: auto;
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer-modern {
+            background: linear-gradient(145deg, #0B2B40, #1A4A5F);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-modern::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatFooter 30s linear infinite;
+        }
+        
+        @keyframes floatFooter {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo i {
+            color: #FFEAA7;
+        }
+        
+        .footer-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .payment-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        
+        .payment-item:hover {
+            background: #FFEAA7;
+            color: #0B2B40;
+            transform: translateY(-3px);
+            border-color: #FFEAA7;
+        }
+        
+        .payment-item i {
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #FFEAA7;
+            transform: translateY(-2px);
+        }
+        
+        .footer-link i {
+            font-size: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .social-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: #FFEAA7;
+            color: #0B2B40;
+            transform: translateY(-5px) rotate(10deg);
+            border-color: #FFEAA7;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+        
+        .copyright a {
+            color: #FFEAA7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .navbar-modern .navbar-collapse {
+                background: rgba(11,43,64,0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 20px;
+                margin-top: 15px;
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .search-form {
+                width: 100%;
+                margin: 15px 0;
+            }
+            
+            .cart-btn, .user-dropdown-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dropdown-menu {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .payment-item {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-modern">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-shop"></i>
+                <span>FARDIN's SmartShop</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'products' in request.path %}active{% endif %}" href="{% url 'product_list' %}">
+                            <i class="bi bi-grid"></i> Products
+                        </a>
+                    </li>
+                    
+                    <!-- Admin Dashboard Link - Visible to All -->
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'admin-dashboard' in request.path %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                            {% if user.is_staff %}
+                            <span class="admin-badge">Admin</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Search Form -->
+                <form class="search-form" action="{% url 'product_list' %}" method="GET">
+                    <i class="bi bi-search search-icon"></i>
+                    <input class="search-input" type="search" name="q" placeholder="Search products..." value="{{ request.GET.q }}">
+                    <button class="search-btn" type="submit">Search</button>
+                </form>
+                
+                <!-- Cart Button -->
+                <a href="{% url 'cart' %}" class="cart-btn me-2">
+                    <i class="bi bi-cart3"></i>
+                    <span>Cart</span>
+                    <span class="cart-badge">{{ cart_count }}</span>
+                </a>
+                
+                <!-- User Dropdown -->
+                <div class="dropdown">
+                    <button class="btn user-dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i>
+                        {% if user.is_authenticated %}
+                            {{ user.username|truncatechars:10 }}
+                        {% else %}
+                            Account
+                        {% endif %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'profile' %}">
+                                    <i class="bi bi-person"></i>
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'order_history' %}">
+                                    <i class="bi bi-box"></i>
+                                    My Orders
+                                </a>
+                            </li>
+                            
+                            {% if user.is_staff or user.is_superuser %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'admin_dashboard' %}">
+                                    <i class="bi bi-speedometer2"></i>
+                                    Admin Dashboard
+                                </a>
+                            </li>
+                            {% endif %}
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'login' %}">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'register' %}">
+                                    <i class="bi bi-person-plus"></i>
+                                    Register
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-modern alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="bi 
+                        {% if message.tags == 'success' %}bi-check-circle-fill
+                        {% elif message.tags == 'error' %}bi-exclamation-circle-fill
+                        {% elif message.tags == 'warning' %}bi-exclamation-triangle-fill
+                        {% elif message.tags == 'info' %}bi-info-circle-fill
+                        {% else %}bi-bell-fill{% endif %}">
+                    </i>
+                    <span>{{ message }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="container footer-content">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="footer-logo">
+                        <i class="bi bi-shop"></i>
+                        FARDIN's SmartShop BD
+                    </div>
+                    <p class="footer-text">
+                        Bangladesh's premier destination for authentic electronics.<br>
+                        1-year warranty • Free shipping • 24/7 support
+                    </p>
+                    
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <span class="payment-item">
+                            <i class="bi bi-phone"></i> bKash
+                        </span>
+                        <span class="payment-item">
+                            <i class="bi bi-phone"></i> Nagad
+                        </span>
+                        <span class="payment-item">
+                            <i class="bi bi-phone"></i> Rocket
+                        </span>
+                        <span class="payment-item">
+                            <i class="bi bi-cash"></i> Cash on Delivery
+                        </span>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="footer-links">
+                        <a href="{% url 'home' %}" class="footer-link">
+                            <i class="bi bi-house"></i> Home
+                        </a>
+                        <a href="{% url 'product_list' %}" class="footer-link">
+                            <i class="bi bi-grid"></i> Products
+                        </a>
+                        <a href="{% url 'cart' %}" class="footer-link">
+                            <i class="bi bi-cart"></i> Cart
+                        </a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile' %}" class="footer-link">
+                                <i class="bi bi-person"></i> Profile
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="footer-link">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-icon" target="_blank">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Copyright -->
+                    <div class="copyright">
+                        <p>© 2026 <a href="{% url 'home' %}">FARDIN's SmartShop BD</a>. All rights reserved.</p>
+                        <p style="font-size: 12px; margin-top: 8px;">
+                            <i class="bi bi-shield-check"></i> Secure Payment 
+                            <i class="bi bi-truck ms-3"></i> Free Delivery 
+                            <i class="bi bi-arrow-repeat ms-3"></i> Easy Returns
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script>
+        // Active link highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert-modern');
+            alerts.forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                setTimeout(() => {
+                    bsAlert.close();
+                }, 5000);
+            });
+        }, 100);
+    </script>
+</body>
+</html>
